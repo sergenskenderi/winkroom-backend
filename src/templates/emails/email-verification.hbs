@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verify Your Email - WinkRoom</title>
+  <style>
+    body { 
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+      line-height: 1.6; 
+      color: #333; 
+      margin: 0; 
+      padding: 0; 
+      background-color: #f4f4f4;
+    }
+    .container { 
+      max-width: 600px; 
+      margin: 0 auto; 
+      background: white;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .header { 
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+      color: white; 
+      padding: 40px 30px; 
+      text-align: center; 
+    }
+    .header h1 {
+      margin: 0;
+      font-size: 28px;
+      font-weight: 600;
+    }
+    .header p {
+      margin: 10px 0 0 0;
+      opacity: 0.9;
+      font-size: 16px;
+    }
+    .content { 
+      padding: 40px 30px; 
+      background: white;
+    }
+    .content h2 {
+      color: #333;
+      margin: 0 0 20px 0;
+      font-size: 24px;
+    }
+    .button { 
+      display: inline-block; 
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+      color: white; 
+      padding: 16px 32px; 
+      text-decoration: none; 
+      border-radius: 50px; 
+      margin: 25px 0; 
+      font-weight: 600;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    }
+    .button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+    }
+    .link-text {
+      background: #f8f9fa;
+      padding: 15px;
+      border-radius: 8px;
+      border-left: 4px solid #667eea;
+      word-break: break-all;
+      color: #667eea;
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      margin: 20px 0;
+    }
+    .footer { 
+      text-align: center; 
+      padding: 30px; 
+      color: #666; 
+      font-size: 14px;
+      background: #f8f9fa;
+      border-top: 1px solid #eee;
+    }
+    .logo {
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+    .features {
+      background: #f8f9fa;
+      padding: 20px;
+      border-radius: 8px;
+      margin: 25px 0;
+    }
+    .features h3 {
+      margin: 0 0 15px 0;
+      color: #333;
+    }
+    .features ul {
+      margin: 0;
+      padding-left: 20px;
+    }
+    .features li {
+      margin: 8px 0;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="logo">🎉</div>
+      <h1>Welcome to WinkRoom!</h1>
+      <p>Verify your email address to get started</p>
+    </div>
+    <div class="content">
+      <h2>Hi {{fullName}},</h2>
+      <p>Thank you for signing up for WinkRoom! We're excited to have you join our community. To complete your registration and start connecting with others, please verify your email address by clicking the button below:</p>
+      
+      <div style="text-align: center;">
+        <a href="{{verificationUrl}}" class="button">Verify Email Address</a>
+      </div>
+      
+      <p>If the button doesn't work, copy and paste this link into your browser:</p>
+      <div class="link-text">{{verificationUrl}}</div>
+      
+      <div class="features">
+        <h3>What you can do after verification:</h3>
+        <ul>
+          <li>Complete your profile and add photos</li>
+          <li>Connect with other users in your area</li>
+          <li>Join chat rooms and start conversations</li>
+          <li>Share moments and experiences</li>
+          <li>Discover new friends and communities</li>
+        </ul>
+      </div>
+      
+      <p><strong>Security Note:</strong> This verification link will expire in 24 hours for your security. If you need a new link, you can request one from your account settings.</p>
+      
+      <p>If you didn't create an account with WinkRoom, you can safely ignore this email. No action is required.</p>
+      
+      <p>Best regards,<br>The WinkRoom Team</p>
+    </div>
+    <div class="footer">
+      <p>&copy; 2024 WinkRoom. All rights reserved.</p>
+      <p>This email was sent to {{email}}</p>
+      <p>If you have any questions, contact us at support@winkroom.com</p>
+    </div>
+  </div>
+</body>
+</html> 
