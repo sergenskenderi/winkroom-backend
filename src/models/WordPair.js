@@ -1,6 +1,12 @@
 const mongoose = require('mongoose');
 
 const wordPairSchema = new mongoose.Schema({
+  locale: {
+    type: String,
+    required: true,
+    default: 'en',
+    index: true
+  },
   commonWord: {
     type: String,
     required: true,
@@ -43,32 +49,28 @@ const wordPairSchema = new mongoose.Schema({
   timestamps: true
 });
 
-// Indexes
-wordPairSchema.index({ category: 1, difficulty: 1, isActive: 1 });
-wordPairSchema.index({ usageCount: 1 });
+wordPairSchema.index({ locale: 1, category: 1, difficulty: 1, isActive: 1 });
+wordPairSchema.index({ locale: 1, usageCount: 1 });
 
-// Get random word pair by category and difficulty
-wordPairSchema.statics.getRandomPair = function(category = null, difficulty = null) {
-  const query = { isActive: true };
-  
+wordPairSchema.statics.getRandomPair = function(category = null, difficulty = null, locale = 'en') {
+  const query = { isActive: true, locale: locale || 'en' };
   if (category) query.category = category;
   if (difficulty) query.difficulty = difficulty;
-  
   return this.aggregate([
     { $match: query },
     { $sample: { size: 1 } }
   ]);
 };
 
-// Get multiple random word pairs
-wordPairSchema.statics.getRandomPairs = function(count = 5, category = null, difficulty = null) {
-  const query = { isActive: true };
-  
+wordPairSchema.statics.getRandomPairs = function(count = 5, category = null, difficulty = null, locale = 'en') {
+  const query = { isActive: true, locale: locale || 'en' };
   if (category) query.category = category;
   if (difficulty) query.difficulty = difficulty;
-  
+  const poolSize = Math.max(50, count * 3);
   return this.aggregate([
     { $match: query },
+    { $sort: { usageCount: 1 } },
+    { $limit: poolSize },
     { $sample: { size: count } }
   ]);
 };

@@ -1,9 +1,53 @@
 const gameService = require('../services/gameService');
 const User = require('../models/User');
 const GameSession = require('../models/GameSession');
+const WordPair = require('../models/WordPair');
 
 class GameController {
-  // Get available games
+  async getWordPairs(req, res) {
+    try {
+      const limit = Math.min(parseInt(req.query.limit, 10) || 20, 50);
+      const locale = (req.query.locale || 'en').toLowerCase();
+      let pairs = await WordPair.getRandomPairs(limit, null, null, locale);
+      if (pairs.length === 0 && locale !== 'en') {
+        pairs = await WordPair.getRandomPairs(limit, null, null, 'en');
+      }
+      const capitalize = (s) => (s && s[0].toUpperCase() + s.slice(1).toLowerCase()) || s;
+      res.json({
+        message: 'Word pairs retrieved successfully',
+        data: pairs.map(p => ({
+          id: p._id.toString(),
+          normal: capitalize(p.commonWord),
+          imposter: capitalize(p.intruderWord)
+        }))
+      });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  }
+
+  async reportWordPairUsage(req, res) {
+    try {
+      const { usages } = req.body;
+      if (!Array.isArray(usages) || usages.length === 0) {
+        return res.status(400).json({ error: 'usages array is required' });
+      }
+      for (const { pairId, rating } of usages) {
+        if (!pairId) continue;
+        const pair = await WordPair.findById(pairId);
+        if (!pair) continue;
+        if (rating != null && typeof rating === 'number' && rating >= 0 && rating <= 5) {
+          await pair.updateRating(rating);
+        } else {
+          await pair.incrementUsage();
+        }
+      }
+      res.json({ message: 'Word pair usage updated successfully' });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  }
+
   async getAvailableGames(req, res) {
     try {
       const games = await gameService.getAvailableGames();

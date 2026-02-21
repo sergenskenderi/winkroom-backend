@@ -180,6 +180,9 @@ const { authenticate } = require('../middleware/auth');
  */
 router.get('/', authenticate, gameController.getAvailableGames);
 
+router.get('/words/pairs', gameController.getWordPairs);
+router.post('/words/pairs/usage', gameController.reportWordPairUsage);
+
 /**
  * @swagger
  * /api/games/{gameId}/config:
