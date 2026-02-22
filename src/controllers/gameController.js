@@ -2,6 +2,7 @@ const gameService = require('../services/gameService');
 const User = require('../models/User');
 const GameSession = require('../models/GameSession');
 const WordPair = require('../models/WordPair');
+const CharadesWord = require('../models/CharadesWord');
 
 class GameController {
   async getWordPairs(req, res) {
@@ -19,6 +20,31 @@ class GameController {
           id: p._id.toString(),
           normal: capitalize(p.commonWord),
           imposter: capitalize(p.intruderWord)
+        }))
+      });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  }
+
+  async getCharadesWords(req, res) {
+    try {
+      const limit = Math.min(parseInt(req.query.limit, 10) || 50, 100);
+      const locale = (req.query.locale || 'en').toLowerCase();
+      const category = req.query.category || null;
+      const difficulty = req.query.difficulty || null;
+      let words = await CharadesWord.getRandomWords(limit, category, difficulty, locale);
+      if (words.length === 0 && locale !== 'en') {
+        words = await CharadesWord.getRandomWords(limit, category, difficulty, 'en');
+      }
+      const capitalize = (s) => (s && s[0] ? s[0].toUpperCase() + s.slice(1).toLowerCase() : s);
+      res.json({
+        message: 'Charades words retrieved successfully',
+        data: words.map((w) => ({
+          id: w._id.toString(),
+          word: capitalize(w.word),
+          category: w.category,
+          difficulty: w.difficulty
         }))
       });
     } catch (error) {
