@@ -183,6 +183,12 @@ router.get('/', authenticate, gameController.getAvailableGames);
 router.get('/words/pairs', gameController.getWordPairs);
 router.post('/words/pairs/usage', gameController.reportWordPairUsage);
 router.get('/charades/words', gameController.getCharadesWords);
+router.post('/charades/words/usage', gameController.reportCharadesWordUsage);
+router.get('/wrong-answers/questions', gameController.getWrongAnswersQuestions);
+router.post(
+  '/wrong-answers/questions/usage',
+  gameController.reportWrongAnswersQuestionUsage
+);
 
 /**
  * @swagger

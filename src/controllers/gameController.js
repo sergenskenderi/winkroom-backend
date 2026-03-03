@@ -3,6 +3,7 @@ const User = require('../models/User');
 const GameSession = require('../models/GameSession');
 const WordPair = require('../models/WordPair');
 const CharadesWord = require('../models/CharadesWord');
+const WrongAnswerQuestion = require('../models/WrongAnswerQuestion');
 
 class GameController {
   async getWordPairs(req, res) {
@@ -23,6 +24,7 @@ class GameController {
         }))
       });
     } catch (error) {
+      console.error('getWordPairs error:', error.message, error.stack);
       res.status(500).json({ error: error.message });
     }
   }
@@ -48,6 +50,7 @@ class GameController {
         }))
       });
     } catch (error) {
+      console.error('getCharadesWords error:', error.message, error.stack);
       res.status(500).json({ error: error.message });
     }
   }
@@ -69,6 +72,76 @@ class GameController {
         }
       }
       res.json({ message: 'Word pair usage updated successfully' });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  }
+
+  async reportCharadesWordUsage(req, res) {
+    try {
+      const { usages } = req.body;
+      if (!Array.isArray(usages) || usages.length === 0) {
+        return res.status(400).json({ error: 'usages array is required' });
+      }
+      for (const { wordId } of usages) {
+        if (!wordId) continue;
+        await CharadesWord.findByIdAndUpdate(wordId, { $inc: { usageCount: 1 } });
+      }
+      res.json({ message: 'Charades word usage updated successfully' });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  }
+
+  async getWrongAnswersQuestions(req, res) {
+    try {
+      const limit = Math.min(parseInt(req.query.limit, 10) || 50, 100);
+      const rawLocale = (req.query.locale || 'en').toLowerCase().split(/[-_]/)[0];
+      const supported = ['en', 'de', 'es', 'fr', 'it', 'tr', 'sq'];
+      const locale = supported.includes(rawLocale) ? rawLocale : 'en';
+      const category = req.query.category || null;
+      const difficulty = req.query.difficulty || null;
+      let questions = await WrongAnswerQuestion.getRandomQuestions(
+        limit,
+        category,
+        difficulty,
+        locale
+      );
+      if (questions.length === 0 && locale !== 'en') {
+        questions = await WrongAnswerQuestion.getRandomQuestions(
+          limit,
+          category,
+          difficulty,
+          'en'
+        );
+      }
+      res.json({
+        message: 'Wrong answers questions retrieved successfully',
+        data: questions.map((q) => ({
+          id: q._id.toString(),
+          question: q.question,
+          category: q.category,
+          difficulty: q.difficulty,
+        })),
+      });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  }
+
+  async reportWrongAnswersQuestionUsage(req, res) {
+    try {
+      const { usages } = req.body;
+      if (!Array.isArray(usages) || usages.length === 0) {
+        return res.status(400).json({ error: 'usages array is required' });
+      }
+      for (const { questionId } of usages) {
+        if (!questionId) continue;
+        await WrongAnswerQuestion.findByIdAndUpdate(questionId, {
+          $inc: { usageCount: 1 },
+        });
+      }
+      res.json({ message: 'Wrong answers question usage updated successfully' });
     } catch (error) {
       res.status(500).json({ error: error.message });
     }

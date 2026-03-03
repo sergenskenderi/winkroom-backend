@@ -62,13 +62,17 @@ wordPairSchema.statics.getRandomPair = function(category = null, difficulty = nu
   ]);
 };
 
-wordPairSchema.statics.getRandomPairs = function(count = 5, category = null, difficulty = null, locale = 'en') {
+wordPairSchema.statics.getRandomPairs = function(count = 5, category = null, difficulty = null, locale = 'en', excludeIds = []) {
   const query = { isActive: true, locale: locale || 'en' };
   if (category) query.category = category;
   if (difficulty) query.difficulty = difficulty;
+  const matchQuery = { ...query };
+  if (Array.isArray(excludeIds) && excludeIds.length > 0) {
+    matchQuery._id = { $nin: excludeIds };
+  }
   const poolSize = Math.max(50, count * 3);
   return this.aggregate([
-    { $match: query },
+    { $match: matchQuery },
     { $sort: { usageCount: 1 } },
     { $limit: poolSize },
     { $sample: { size: count } }

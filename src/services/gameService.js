@@ -156,11 +156,19 @@ class GameService {
     const currentRound = session.getCurrentRound();
     if (!currentRound) return;
 
+    const usedWordPairIds = Array.isArray(session.gameState.usedWordPairIds)
+      ? session.gameState.usedWordPairIds
+      : [];
+
     const gameMode = session.settings.get('gameMode');
     const autoAssignIntruder = session.settings.get('autoAssignIntruder');
 
-    // Get word pairs for this round
-    const wordPairs = await WordPair.getRandomPairs(3);
+    let wordPairs = await WordPair.getRandomPairs(3, null, null, 'en', usedWordPairIds);
+    if (!wordPairs || wordPairs.length === 0) {
+      wordPairs = await WordPair.getRandomPairs(3);
+      session.gameState.usedWordPairIds = [];
+    }
+
     const selectedPair = wordPairs[Math.floor(Math.random() * wordPairs.length)];
 
     // Get active players
@@ -186,7 +194,6 @@ class GameService {
     // Determine who starts giving clues
     const clueStartPlayer = this.determineClueStartPlayer(session);
 
-    // Update round data based on game mode
     const roundData = {
       wordPairs,
       selectedPair: {
@@ -200,7 +207,6 @@ class GameService {
       gameMode
     };
 
-    // Add mode-specific data
     if (gameMode === 'single_device') {
       roundData.singleDeviceData = {
         currentWordReader: null,
@@ -234,9 +240,15 @@ class GameService {
       clueStartPlayer
     });
 
+    const nextUsedWordPairIds = Array.isArray(session.gameState.usedWordPairIds)
+      ? [...session.gameState.usedWordPairIds, selectedPair._id]
+      : [selectedPair._id];
+    session.updateGameState({
+      usedWordPairIds: nextUsedWordPairIds
+    });
+
     await session.save();
 
-    // Increment usage count for the word pair
     await WordPair.findByIdAndUpdate(selectedPair._id, { $inc: { usageCount: 1 } });
   }
 
