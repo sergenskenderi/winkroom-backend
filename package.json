@@ -9,7 +9,8 @@
     "seed": "node src/scripts/seedWords.js",
     "seed:games": "node src/scripts/seedGames.js",
     "seed:charades": "node src/scripts/seedCharadesWords.js",
-    "seed:wrong-answers": "node src/scripts/seedWrongAnswerQuestions.js"
+    "seed:wrong-answers": "node src/scripts/seedWrongAnswerQuestions.js",
+    "seed:never-have-i-ever": "node src/scripts/seedNeverHaveIEverQuestions.js"
   },
   "keywords": [],
   "author": "",

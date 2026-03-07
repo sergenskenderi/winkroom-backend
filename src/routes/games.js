@@ -189,6 +189,7 @@ router.post(
   '/wrong-answers/questions/usage',
   gameController.reportWrongAnswersQuestionUsage
 );
+router.get('/never-have-i-ever/questions', gameController.getNeverHaveIEverQuestions);
 
 /**
  * @swagger

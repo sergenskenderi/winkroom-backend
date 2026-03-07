@@ -4,6 +4,7 @@ const GameSession = require('../models/GameSession');
 const WordPair = require('../models/WordPair');
 const CharadesWord = require('../models/CharadesWord');
 const WrongAnswerQuestion = require('../models/WrongAnswerQuestion');
+const NeverHaveIEverQuestion = require('../models/NeverHaveIEverQuestion');
 
 class GameController {
   async getWordPairs(req, res) {
@@ -142,6 +143,30 @@ class GameController {
         });
       }
       res.json({ message: 'Wrong answers question usage updated successfully' });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  }
+
+  async getNeverHaveIEverQuestions(req, res) {
+    try {
+      const limit = Math.min(parseInt(req.query.limit, 10) || 50, 100);
+      const rawLocale = (req.query.locale || 'en').toLowerCase().split(/[-_]/)[0];
+      const supported = ['en', 'de', 'es', 'fr', 'it', 'tr', 'sq'];
+      const locale = supported.includes(rawLocale) ? rawLocale : 'en';
+      const category = req.query.category || null;
+      let questions = await NeverHaveIEverQuestion.getRandomQuestions(limit, category, locale);
+      if (questions.length === 0 && locale !== 'en') {
+        questions = await NeverHaveIEverQuestion.getRandomQuestions(limit, category, 'en');
+      }
+      res.json({
+        message: 'Never have I ever questions retrieved successfully',
+        data: questions.map((q) => ({
+          id: q._id.toString(),
+          question: q.question,
+          category: q.category,
+        })),
+      });
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
