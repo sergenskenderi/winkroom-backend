@@ -19,7 +19,6 @@ const wrongAnswerQuestionSchema = new mongoose.Schema(
       enum: [
         'general',
         'funny',
-        'would_you_rather',
         'random',
         'science',
         'geography',
@@ -27,6 +26,10 @@ const wrongAnswerQuestionSchema = new mongoose.Schema(
         'sports',
         'music',
         'movies',
+        'history',
+        'technology',
+        'nature',
+        'travel',
       ],
       default: 'general',
     },
