@@ -190,6 +190,7 @@ router.post(
   gameController.reportWrongAnswersQuestionUsage
 );
 router.get('/never-have-i-ever/questions', gameController.getNeverHaveIEverQuestions);
+router.get('/truth-or-dare', gameController.getTruthOrDare);
 
 /**
  * @swagger

@@ -10,7 +10,9 @@
     "seed:games": "node src/scripts/seedGames.js",
     "seed:charades": "node src/scripts/seedCharadesWords.js",
     "seed:wrong-answers": "node src/scripts/seedWrongAnswerQuestions.js",
-    "seed:never-have-i-ever": "node src/scripts/seedNeverHaveIEverQuestions.js"
+    "seed:never-have-i-ever": "node src/scripts/seedNeverHaveIEverQuestions.js",
+    "seed:truth-or-dare": "node src/scripts/seedTruthOrDare.js",
+    "seed:all": "npm run seed && npm run seed:games && npm run seed:charades && npm run seed:wrong-answers && npm run seed:never-have-i-ever && npm run seed:truth-or-dare"
   },
   "keywords": [],
   "author": "",

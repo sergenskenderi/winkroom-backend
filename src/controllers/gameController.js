@@ -5,6 +5,7 @@ const WordPair = require('../models/WordPair');
 const CharadesWord = require('../models/CharadesWord');
 const WrongAnswerQuestion = require('../models/WrongAnswerQuestion');
 const NeverHaveIEverQuestion = require('../models/NeverHaveIEverQuestion');
+const TruthOrDare = require('../models/TruthOrDare');
 
 class GameController {
   async getWordPairs(req, res) {
@@ -165,6 +166,35 @@ class GameController {
           id: q._id.toString(),
           question: q.question,
           category: q.category,
+        })),
+      });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  }
+
+  async getTruthOrDare(req, res) {
+    try {
+      const type = (req.query.type || 'truth').toLowerCase();
+      if (type !== 'truth' && type !== 'dare') {
+        return res.status(400).json({ error: 'type must be truth or dare' });
+      }
+      const limit = Math.min(parseInt(req.query.limit, 10) || 30, 50);
+      const rawLocale = (req.query.locale || 'en').toLowerCase().split(/[-_]/)[0];
+      const supported = ['en', 'de', 'es', 'fr', 'it', 'tr', 'sq'];
+      const locale = supported.includes(rawLocale) ? rawLocale : 'en';
+      const category = req.query.category || null;
+      let items = await TruthOrDare.getRandom(type, limit, category, locale);
+      if (items.length === 0 && locale !== 'en') {
+        items = await TruthOrDare.getRandom(type, limit, category, 'en');
+      }
+      res.json({
+        message: 'Truth or dare items retrieved successfully',
+        data: items.map((item) => ({
+          id: item._id.toString(),
+          type: item.type,
+          text: item.text,
+          category: item.category,
         })),
       });
     } catch (error) {
