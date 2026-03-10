@@ -84,18 +84,18 @@ http://localhost:5400/api-docs
 ## API Endpoints
 
 ### Authentication
-- `POST /api/auth/register` - Register a new user
-- `POST /api/auth/login` - Login user
-- `POST /api/auth/verify-email` - Verify email address
-- `POST /api/auth/forgot-password` - Request password reset
-- `POST /api/auth/reset-password` - Reset password
+- `POST /auth/register` - Register a new user
+- `POST /auth/login` - Login user
+- `POST /auth/verify-email` - Verify email address
+- `POST /auth/forgot-password` - Request password reset
+- `POST /auth/reset-password` - Reset password
 
 ### Games
-- `GET /api/games` - Get all games
-- `POST /api/games` - Create a new game
-- `GET /api/games/:id` - Get game by ID
-- `PUT /api/games/:id` - Update game
-- `DELETE /api/games/:id` - Delete game
+- `GET /games` - Get all games
+- `POST /games` - Create a new game
+- `GET /games/:id` - Get game by ID
+- `PUT /games/:id` - Update game
+- `DELETE /games/:id` - Delete game
 
 ### Health Check
 - `GET /health` - Server health status

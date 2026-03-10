@@ -152,7 +152,7 @@ const { authenticate } = require('../middleware/auth');
 
 /**
  * @swagger
- * /api/games:
+ * /games:
  *   get:
  *     summary: Get available games
  *     tags: [Games]
@@ -194,7 +194,7 @@ router.get('/truth-or-dare', gameController.getTruthOrDare);
 
 /**
  * @swagger
- * /api/games/{gameId}/config:
+ * /games/{gameId}/config:
  *   get:
  *     summary: Get game configuration
  *     tags: [Games]
@@ -231,7 +231,7 @@ router.get('/:gameId/config', authenticate, gameController.getGameConfig);
 
 /**
  * @swagger
- * /api/games/sessions:
+ * /games/sessions:
  *   post:
  *     summary: Create a new game session
  *     tags: [Games]
@@ -271,7 +271,7 @@ router.post('/sessions', authenticate, gameController.createSession);
 
 /**
  * @swagger
- * /api/games/sessions/join:
+ * /games/sessions/join:
  *   post:
  *     summary: Join a game session
  *     tags: [Games]
@@ -311,7 +311,7 @@ router.post('/sessions/join', authenticate, gameController.joinSession);
 
 /**
  * @swagger
- * /api/games/sessions:
+ * /games/sessions:
  *   get:
  *     summary: Get public sessions
  *     tags: [Games]
@@ -357,7 +357,7 @@ router.get('/sessions', authenticate, gameController.getPublicSessions);
 
 /**
  * @swagger
- * /api/games/sessions/{sessionId}:
+ * /games/sessions/{sessionId}:
  *   get:
  *     summary: Get session by ID
  *     tags: [Games]
@@ -394,7 +394,7 @@ router.get('/sessions/:sessionId', authenticate, gameController.getSessionById);
 
 /**
  * @swagger
- * /api/games/sessions/{sessionId}/leave:
+ * /games/sessions/{sessionId}/leave:
  *   delete:
  *     summary: Leave a game session
  *     tags: [Games]
@@ -428,7 +428,7 @@ router.delete('/sessions/:sessionId/leave', authenticate, gameController.leaveSe
 
 /**
  * @swagger
- * /api/games/sessions/{sessionId}/ready:
+ * /games/sessions/{sessionId}/ready:
  *   post:
  *     summary: Toggle player ready status
  *     tags: [Games]
@@ -465,7 +465,7 @@ router.post('/sessions/:sessionId/ready', authenticate, gameController.toggleRea
 
 /**
  * @swagger
- * /api/games/sessions/{sessionId}/start:
+ * /games/sessions/{sessionId}/start:
  *   post:
  *     summary: Start the game session (host only)
  *     tags: [Games]
@@ -502,7 +502,7 @@ router.post('/sessions/:sessionId/start', authenticate, gameController.startSess
 
 /**
  * @swagger
- * /api/games/sessions/{sessionId}/action:
+ * /games/sessions/{sessionId}/action:
  *   post:
  *     summary: Submit a game action
  *     tags: [Games]
@@ -545,7 +545,7 @@ router.post('/sessions/:sessionId/action', authenticate, gameController.submitAc
 
 /**
  * @swagger
- * /api/games/sessions/{sessionId}/state:
+ * /games/sessions/{sessionId}/state:
  *   get:
  *     summary: Get session state for current player
  *     tags: [Games]
@@ -582,7 +582,7 @@ router.get('/sessions/:sessionId/state', authenticate, gameController.getSession
 
 /**
  * @swagger
- * /api/games/stats:
+ * /games/stats:
  *   get:
  *     summary: Get user's game statistics
  *     tags: [Games]
@@ -610,7 +610,7 @@ router.get('/stats', authenticate, gameController.getUserStats);
 
 /**
  * @swagger
- * /api/games/history:
+ * /games/history:
  *   get:
  *     summary: Get game history for user
  *     tags: [Games]
@@ -664,7 +664,7 @@ router.get('/history', authenticate, gameController.getGameHistory);
 
 /**
  * @swagger
- * /api/games/leaderboard:
+ * /games/leaderboard:
  *   get:
  *     summary: Get leaderboard
  *     tags: [Games]

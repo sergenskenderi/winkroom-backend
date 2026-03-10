@@ -56,8 +56,8 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpecs, {
 }));
 
 // API routes
-app.use('/api/auth', authRoutes);
-app.use('/api/games', gameRoutes);
+app.use('/auth', authRoutes);
+app.use('/games', gameRoutes);
 
 // Basic route for testing
 app.get('/', (req, res) => {

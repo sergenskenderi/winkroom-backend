@@ -140,7 +140,7 @@ const {
 
 /**
  * @swagger
- * /api/auth/register:
+ * /auth/register:
  *   post:
  *     summary: Register a new user
  *     tags: [Authentication]
@@ -168,7 +168,7 @@ router.post('/register', validateRegistration, authController.register);
 
 /**
  * @swagger
- * /api/auth/login:
+ * /auth/login:
  *   post:
  *     summary: Login user with email and password
  *     tags: [Authentication]
@@ -196,7 +196,7 @@ router.post('/login', validateLogin, authController.login);
 
 /**
  * @swagger
- * /api/auth/social-login:
+ * /auth/social-login:
  *   post:
  *     summary: Login or register user with social media
  *     tags: [Authentication]
@@ -224,7 +224,7 @@ router.post('/social-login', validateSocialLogin, authController.socialLogin);
 
 /**
  * @swagger
- * /api/auth/verify-email/{token}:
+ * /auth/verify-email/{token}:
  *   get:
  *     summary: Verify email address
  *     tags: [Authentication]
@@ -261,7 +261,7 @@ router.get('/verify-email/:token', authController.verifyEmail);
 
 /**
  * @swagger
- * /api/auth/forgot-password:
+ * /auth/forgot-password:
  *   post:
  *     summary: Request password reset
  *     tags: [Authentication]
@@ -303,7 +303,7 @@ router.post('/forgot-password', authController.forgotPassword);
 
 /**
  * @swagger
- * /api/auth/reset-password/{token}:
+ * /auth/reset-password/{token}:
  *   post:
  *     summary: Reset password with token
  *     tags: [Authentication]
@@ -352,7 +352,7 @@ router.post('/reset-password/:token', validatePasswordReset, authController.rese
 
 /**
  * @swagger
- * /api/auth/profile:
+ * /auth/profile:
  *   get:
  *     summary: Get current user profile
  *     tags: [Authentication]
@@ -384,7 +384,7 @@ router.get('/profile', authenticate, authController.getProfile);
 
 /**
  * @swagger
- * /api/auth/profile:
+ * /auth/profile:
  *   put:
  *     summary: Update user profile
  *     tags: [Authentication]
@@ -433,7 +433,7 @@ router.put('/profile', authenticate, validateProfileUpdate, authController.updat
 
 /**
  * @swagger
- * /api/auth/logout:
+ * /auth/logout:
  *   post:
  *     summary: Logout user
  *     tags: [Authentication]
@@ -460,7 +460,7 @@ router.post('/logout', authenticate, authController.logout);
 
 /**
  * @swagger
- * /api/auth/delete-account:
+ * /auth/delete-account:
  *   delete:
  *     summary: Delete user account
  *     tags: [Authentication]
@@ -487,7 +487,7 @@ router.delete('/delete-account', authenticate, authController.deleteAccount);
 
 /**
  * @swagger
- * /api/auth/resend-verification:
+ * /auth/resend-verification:
  *   post:
  *     summary: Resend email verification
  *     tags: [Authentication]
@@ -525,7 +525,7 @@ router.post('/resend-verification', authenticate, authController.resendVerificat
 
 /**
  * @swagger
- * /api/auth/test-email:
+ * /auth/test-email:
  *   post:
  *     summary: Test email functionality
  *     tags: [Authentication]
