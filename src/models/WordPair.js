@@ -20,7 +20,7 @@ const wordPairSchema = new mongoose.Schema({
   category: {
     type: String,
     required: true,
-    enum: ['animals', 'food', 'colors', 'emotions', 'objects', 'nature', 'sports', 'professions', 'places', 'activities']
+    enum: ['animals', 'food', 'colors', 'emotions', 'objects', 'nature', 'sports', 'professions', 'places', 'activities', 'vehicles', 'clothing', 'weather', 'body', 'music', 'technology']
   },
   difficulty: {
     type: String,
